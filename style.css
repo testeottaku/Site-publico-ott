@@ -1,0 +1,315 @@
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
+}
+html {
+  scroll-behavior: smooth;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.6; }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Menu deslizante */
+.slide-menu {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 280px;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(34, 197, 94, 0.3);
+  z-index: 1000;
+  transition: left 0.3s ease-in-out;
+  padding: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+}
+
+.slide-menu.open {
+  left: 0;
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Menu hamburguer */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: #22c55e;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Páginas internas */
+.page {
+  display: none;
+  min-height: 100vh;
+  padding-top: 80px;
+  background: #030712;
+}
+
+.page.active {
+  display: block;
+}
+
+/* Webview responsiva */
+.webview-container {
+  width: 100%;
+  max-width: 400px;
+  height: 600px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.webview-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Barra de pesquisa */
+.search-container {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.search-input {
+  background: rgba(31, 41, 55, 0.7);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: white;
+  width: 100%;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Filtros de categoria */
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.category-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  background: rgba(31, 41, 55, 0.7);
+  border: 1px solid rgba(75, 85, 99, 0.5);
+  color: #d1d5db;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.category-btn:hover {
+  background: rgba(55, 65, 81, 0.7);
+  border-color: #22c55e;
+}
+
+.category-btn.active {
+  background: #22c55e;
+  border-color: #22c55e;
+  color: white;
+  font-weight: 600;
+}
+
+/* Card de notícias/parceiros */
+.news-card, .partner-card {
+  transition: all 0.3s ease;
+}
+
+.news-card.hidden, .partner-card.hidden {
+  display: none;
+}
+
+/* Estilos para os novos cards de parceiros simplificados */
+.partner-card .line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Remove a seção de filtros de categoria da página de parceiros */
+#parceiros .category-filter {
+  display: none;
+}
+
+/* Top 3 Ganhadores - Quiz */
+.quiz-winners {
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+  color: #22c55e;
+}
+
+.winner-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.winner-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.winner-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.winner-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.winner-prize {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.winner-btn {
+  background: #22c55e;
+  color: #020617;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Estilos para a página de gaming */
+#gaming .page {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0f0f 100%);
+}
+
+#gaming .border-red-500\/20 {
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+#gaming .bg-red-500\/10 {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Responsividade para cards de gaming */
+@media (max-width: 640px) {
+  #gaming .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Estilo para ocultar cards de ganhadores */
+.winner-card-item.hidden {
+  display: none;
+}
+
+/* Estilo para cards de ganhadores */
+#ganhadores .category-btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 50px;
+  background: rgba(31, 41, 55, 0.7);
+  border: 1px solid rgba(75, 85, 99, 0.5);
+  color: #d1d5db;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#ganhadores .category-btn:hover {
+  background: rgba(55, 65, 81, 0.7);
+  border-color: #a855f7;
+}
+
+#ganhadores .category-btn.active {
+  background: #a855f7;
+  border-color: #a855f7;
+  color: white;
+  font-weight: 600;
+}
