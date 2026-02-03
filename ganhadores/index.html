@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conheça os vencedores dos nossos quizzes, campeonatos e sorteios. Transparência, privacidade e reconhecimento da comunidade.">
+<title>Hall dos Ganhadores | Ottaku Brasil</title>
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hall dos Ganhadores | Ottaku Brasil">
+<meta property="og:description" content="Conheça os vencedores dos nossos quizzes, campeonatos e sorteios. Transparência, privacidade e reconhecimento da comunidade.">
+<script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, orderBy, limit, query, where , doc, getDoc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaziMYrOPaI4D-vr1qGDFbGGV9ToVcwQ4",
+      authDomain: "ottakubrasil-cb8c1.firebaseapp.com",
+      projectId: "ottakubrasil-cb8c1",
+      storageBucket: "ottakubrasil-cb8c1.firebasestorage.app",
+      messagingSenderId: "117674731024",
+      appId: "1:117674731024:web:4b74600ab12a6ebfe70c95",
+      measurementId: "G-EQZP2C8DSC"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Make Firebase available globally
+    window.firebaseApp = app;
+    window.firebaseDB = db;
+    window.firebaseModules = { collection, getDocs, orderBy, limit, query, where , doc, getDoc };
+  </script>
+</head>
+<body class="min-h-screen bg-gray-950 text-white">
+
+  <!-- Menu deslizante -->
+  <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
+  
+  <div id="slideMenu" class="slide-menu">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+          <span class="text-lg font-bold text-gray-950">O</span>
+        </div>
+        <h2 class="text-xl font-bold text-white">
+          <span class="text-green-400">Ottaku</span> Menu
+        </h2>
+      </div>
+      <button onclick="closeMenu()" class="text-gray-400 hover:text-white p-2">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+    
+    <div class="space-y-4">
+      <a href="#" onclick="showPage('doacao'); closeMenu(); return false;"
+         class="flex items-center gap-3 p-3 bg-green-500/20 rounded-xl hover:bg-green-500/30 transition-colors border border-green-500/30">
+        <div class="w-10 h-10 rounded-lg bg-green-500 flex items-center justify-center">
+          <i class="fas fa-donate text-white"></i>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Doação</p>
+          <p class="text-xs text-gray-300">Apoie a comunidade</p>
+        </div>
+      </a>
+      
+      <a href="#" onclick="showPage('parceiros'); closeMenu(); return false;"
+         class="flex items-center gap-3 p-3 bg-blue-500/20 rounded-xl hover:bg-blue-500/30 transition-colors border border-blue-500/30">
+        <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
+          <i class="fas fa-handshake text-white"></i>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Parceiros</p>
+          <p class="text-xs text-gray-300">Nossas colaborações</p>
+        </div>
+      </a>
+      
+      <a href="#" onclick="showPage('novidades'); closeMenu(); return false;"
+         class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-xl hover:bg-gray-700/50 transition-colors">
+        <div class="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center">
+          <i class="fas fa-newspaper text-white"></i>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Novidades</p>
+          <p class="text-xs text-gray-300">Fique por dentro</p>
+        </div>
+      </a>
+      
+      <a href="#" onclick="showPage('quiz'); closeMenu(); return false;"
+         class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-xl hover:bg-gray-700/50 transition-colors">
+        <div class="w-10 h-10 rounded-lg bg-purple-500 flex items-center justify-center">
+          <i class="fas fa-gamepad text-white"></i>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Quiz/Games</p>
+          <p class="text-xs text-gray-300">Teste seus conhecimentos</p>
+        </div>
+      </a>
+      
+      <a href="#" onclick="showPage('gaming'); closeMenu(); return false;"
+   class="flex items-center gap-3 p-3 bg-red-500/20 rounded-xl hover:bg-red-500/30 transition-colors border border-red-500/30">
+  <div class="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center">
+    <i class="fas fa-gamepad text-white"></i>
+  </div>
+  <div>
+    <p class="font-semibold text-white">Gaming</p>
+    <p class="text-xs text-gray-300">Campeonatos e Guildas</p>
+  </div>
+</a>
+      
+      <a href="#" onclick="showPage('ganhadores'); closeMenu(); return false;"
+   class="flex items-center gap-3 p-3 bg-purple-500/20 rounded-xl hover:bg-purple-500/30 transition-colors border border-purple-500/30">
+  <div class="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center">
+    <i class="fas fa-trophy text-white"></i>
+  </div>
+  <div>
+    <p class="font-semibold text-white">Ganhadores</p>
+    <p class="text-xs text-gray-300">Conheça os vencedores</p>
+  </div>
+</a>
+      
+      <a href="https://instagram.com/ottakubrasil" target="_blank"
+         class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-xl hover:bg-gray-700/50 transition-colors" data-setting="instagramUrl">
+        <div class="w-10 h-10 rounded-lg bg-pink-600 flex items-center justify-center">
+          <i class="fab fa-instagram text-white"></i>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Instagram</p>
+          <p class="text-xs text-gray-300" data-setting="instagramHandle">@ottakubrasil</p>
+        </div>
+      </a>
+      
+      <a href="https://whatsapp.com/channel/0029VawtOtw5Ejy3FsDY4p0z" target="_blank"
+         class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-xl hover:bg-gray-700/50 transition-colors" data-setting="whatsappChannelUrl">
+        <div class="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center">
+          <i class="fab fa-whatsapp text-white"></i>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Canal WhatsApp</p>
+          <p class="text-xs text-gray-300">Novidades</p>
+        </div>
+      </a>
+      
+      <a href="https://chat.whatsapp.com/Bz8MALmyHiF3rF3cW4OCMy" target="_blank"
+         class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-xl hover:bg-gray-700/50 transition-colors" data-setting="whatsappGroupUrl">
+        <div class="w-10 h-10 rounded-lg bg-green-700 flex items-center justify-center">
+          <i class="fas fa-users text-white"></i>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Grupo WhatsApp</p>
+          <p class="text-xs text-gray-300">Comunidade</p>
+        </div>
+      </a>
+    </div>
+    
+    <div class="absolute bottom-4 left-4 right-4 text-center">
+      <button onclick="goHome()" class="text-green-400 hover:text-green-300 text-sm font-medium">
+        .
+      </button>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-gray-950/90 backdrop-blur-md border-b border-green-500/20">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <!-- Lado esquerdo: Menu hambúrguer + Logo -->
+      <div class="flex items-center gap-3">
+        <!-- Botão do menu hamburguer (mobile) -->
+        <button id="mobileMenuBtn" class="md:hidden z-50" onclick="toggleMenu()">
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+        
+        <div class="flex items-center gap-3" data-home-brand role="button" tabindex="0" onclick="goHome()" style="cursor:pointer;">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30">
+            <span class="text-lg font-bold text-gray-950">O</span>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-white">
+              <span class="text-green-400">Ottaku</span> Brasil
+            </h1>
+            <p class="text-xs text-gray-400">Seu portal geek</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Menu desktop (central) -->
+      <nav class="hidden md:flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
+        <a href="#" onclick="showPage('doacao'); return false;" class="text-gray-300 hover:text-green-400 transition-colors text-sm font-medium">
+          Doação
+        </a>
+        <a href="#" onclick="showPage('parceiros'); return false;" class="text-gray-300 hover:text-green-400 transition-colors text-sm font-medium">
+          Parceiros
+        </a>
+        <a href="#" onclick="showPage('novidades'); return false;" class="text-gray-300 hover:text-green-400 transition-colors text-sm font-medium">
+          Novidades
+        </a>
+        <a href="https://instagram.com/ottakubrasil" target="_blank" rel="noopener noreferrer"
+           class="flex items-center gap-2 bg-green-500 hover:bg-green-400 text-gray-950 px-4 py-2 rounded-full font-semibold text-sm transition-all hover:shadow-lg hover:shadow-green-500/40" data-setting="instagramUrl">
+          <i class="fab fa-instagram"></i>
+          Seguir
+        </a>
+      </nav>
+      
+      <!-- Lado direito: Botão menu desktop -->
+      <div class="flex items-center gap-3">
+        <button id="desktopMenuBtn" class="hidden md:flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full font-semibold transition-all" onclick="toggleMenu()">
+          <i class="fas fa-bars"></i>
+          Menu
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PÁGINA INICIAL -->
+  <section id="ganhadores" class="page py-20 md:py-24 bg-gray-950 relative">
+  <div class="absolute inset-0" style="background: radial-gradient(ellipse at top, rgba(147, 51, 234, 0.1), transparent, transparent);"></div>
+  
+  <div class="max-w-4xl mx-auto px-4 relative z-10">
+    <!-- Botão voltar -->
+    <button onclick="goHome()" class="mb-8 flex items-center gap-2 text-gray-400 hover:text-green-400 transition-colors">
+      <i class="fas fa-arrow-left"></i>
+      <span>Voltar para Home</span>
+    </button>
+    
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-full px-4 py-2 mb-4">
+        <i class="fas fa-trophy text-purple-400"></i>
+        <span class="text-purple-400 text-sm font-medium">Vencedores</span>
+      </div>
+      <h2 class="text-3xl md:text-5xl font-black text-white mb-4">
+        Hall dos <span class="text-purple-400">Ganhadores</span>
+      </h2>
+      <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto px-4">
+        Conheça os vencedores os últimos ganhadores dos nossos quizzes, campeonatos e sorteios!
+      </p>
+    </div>
+    
+    
+    <!-- Grid de Ganhadores - CARD FINO -->
+    <div class="grid grid-cols-1 gap-4 mb-12" id="winnersGrid"></div>
+    <!-- Aviso de Privacidade -->
+    <div class="bg-gray-800/30 border border-gray-700 rounded-xl p-4 mb-8">
+      <div class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-shield-alt text-green-400 text-sm"></i>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold text-sm mb-1">Respeitamos sua privacidade</h4>
+          <p class="text-gray-400 text-xs">
+            Caso algum ganhador não queira aparecer, mantemos o anonimato. 
+            Apenas pessoas que autorizaram aparecem aqui.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-center">
+      <p class="text-gray-400 text-sm mb-6">
+        Quer ser o próximo? Participe dos nossos eventos!
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="#" onclick="showPage('quiz'); return false;"
+           class="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-400 text-gray-950 px-4 py-2 rounded-full font-bold text-sm transition-all hover:shadow-lg hover:shadow-green-500/40">
+          <i class="fas fa-gamepad"></i>
+          Quiz
+        </a>
+        <a href="#" onclick="showPage('gaming'); return false;"
+           class="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-400 text-gray-950 px-4 py-2 rounded-full font-bold text-sm transition-all hover:shadow-lg hover:shadow-red-500/40">
+          <i class="fas fa-trophy"></i>
+          Gaming
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+   
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 border-t border-gray-800 py-12">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+              <span class="text-lg font-bold text-gray-950">O</span>
+            </div>
+            <span class="text-xl font-bold text-white">
+              <span class="text-green-400">Ottaku</span> Brasil
+            </span>
+          </div>
+          <p class="text-gray-400 text-sm">
+            Sua comunidade de animes, mangás, games e cultura geek. 
+            Participe dos quizzes, ganhe prêmios e fique por dentro de tudo!
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Links Rápidos</h4>
+          <ul class="space-y-2">
+            <li><a href="#" onclick="showPage('doacao'); return false;" class="text-gray-400 hover:text-green-400 transition-colors text-sm">Doação</a></li>
+            <li><a href="#" onclick="showPage('parceiros'); return false;" class="text-gray-400 hover:text-blue-400 transition-colors text-sm">Parceiros</a></li>
+            <li><a href="#" onclick="showPage('novidades'); return false;" class="text-gray-400 hover:text-green-400 transition-colors text-sm">Novidades</a></li>
+            <li><a href="#" onclick="showPage('quiz'); return false;" class="text-gray-400 hover:text-green-400 transition-colors text-sm">Quizzes</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-white font-semibold mb-4">Redes Sociais</h4>
+          <div class="flex items-center gap-3">
+            <a href="https://instagram.com/ottakubrasil" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-green-500 flex items-center justify-center text-gray-400 hover:text-gray-950 transition-all" data-setting="instagramUrl">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://youtube.com/@ottakubrasil" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-green-500 flex items-center justify-center text-gray-400 hover:text-gray-950 transition-all">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://whatsapp.com/channel/0029VawtOtw5Ejy3FsDY4p0z" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-green-500 flex items-center justify-center text-gray-400 hover:text-gray-950 transition-all" data-setting="whatsappChannelUrl">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 pt-8 text-center">
+        <p class="text-gray-500 text-sm flex items-center justify-center gap-1">
+          Feito com 
+          <i class="fas fa-heart text-red-500"></i>
+          por Ottaku Brasil ©️ 2026
+        </p>
+      </div>
+    </div>
+  </footer>
+
+   <script src="/script.js"></script>
+</body>
+</html>
